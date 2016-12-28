@@ -1,0 +1,26 @@
+{
+  "name": "100dayscraig",
+  "version": "1.0.0",
+  "description": "My #100DaysOfCode project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cliff76/100dayscraig.git"
+  },
+  "keywords": [
+    "100DaysOfCode"
+  ],
+  "author": "Clifton C. Craig",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cliff76/100dayscraig/issues"
+  },
+  "homepage": "https://github.com/cliff76/100dayscraig#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}

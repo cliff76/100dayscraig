@@ -14,13 +14,13 @@ var dir_html = path.resolve(dir_src, 'html');
 
 var dir_build = path.resolve(__dirname, 'build');
 var dir_build_server = path.resolve(dir_build, 'server');
-var dir_build_client = path.resolve(dir_build, 'client');
+var dir_build_client = path.resolve(dir_build_server, 'www');
 
 gulp.task('clean', function() {
     return del([dir_build]);
 });
 
-gulp.task('client', function() {
+gulp.task('client', ['server'], function() {
     return gulp.src(path.resolve(dir_js, 'main.js'))
         .pipe(webpack( require('./webpack.config.js') ))
         .pipe(gulp.dest(dir_build_client));
@@ -32,5 +32,5 @@ gulp.task('server', function() {
 });
 
 gulp.task('default', ['clean'], function() {
-    gulp.start('server');
+    gulp.start('client');
 });

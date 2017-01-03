@@ -19,8 +19,11 @@ module.exports = {
     module: {
         loaders: [
             {
-                loader: 'babel-loader',
+                loader: 'babel',
                 test: dir_js,
+                query: {
+                    "presets": ["react", "es2015"]
+                },
             }
         ]
     },

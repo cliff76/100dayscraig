@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "./node_modules/gulp/bin/gulp.js clean",
+    "prebuild": "npm install",
     "build": "./node_modules/gulp/bin/gulp.js",
     "watch": "webpack --watch",
     "dev-start": "webpack-dev-server --hot --inline",

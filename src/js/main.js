@@ -1,102 +1,100 @@
 /**
- * Created by cliftoncraig on 12/30/16.
- */
-import 'babel-polyfill';
+* 100dayscraig
+* Created by Clifton Craig on 1/5/17.
+*/
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-function Square(props) {
+console.clear();
+
+const Title = () => {
     return (
-        <button className="square" onClick={() => props.onClick()}>
-            {props.value}
-        </button>
-    );
-}
-class Board extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            squares: Array(9).fill(null),
-            xIsNext: true,
-        };
-    }
-    handleClick(i){
-        const squares = this.state.squares.slice();
-        if (calculateWinner(squares) || squares[i]) {
-            return;
-        }
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({squares: squares, xIsNext: ! this.state.xIsNext});
-    }
-    renderSquare(i) {
-        return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)}/>;
-    }
-    render() {
-        const winner = calculateWinner(this.state.squares);
-        const status = winner ? 'Winner ' + winner : ('Next player: ' + (this.state.xIsNext ? 'X' : 'O'));
-        return (
+        <div>
             <div>
-            <div className="status">{status}</div>
-            <div className="board-row">
-            {this.renderSquare(0)}
-        {this.renderSquare(1)}
-        {this.renderSquare(2)}
-    </div>
-        <div className="board-row">
-            {this.renderSquare(3)}
-        {this.renderSquare(4)}
-        {this.renderSquare(5)}
-    </div>
-        <div className="board-row">
-            {this.renderSquare(6)}
-        {this.renderSquare(7)}
-        {this.renderSquare(8)}
-    </div>
+                <h1>to-do</h1>
+            </div>
         </div>
     );
-    }
 }
 
-class Game extends React.Component {
-    render() {
-        return (
-            <div className="game">
-            <div className="game-board">
-            <Board />
-            </div>
-            <div className="game-info">
-            <div>{/* status */}</div>
-            <ol>{/* TODO */}</ol>
-            </div>
-            </div>
+const TodoForm = ({addTodo}) => {
+    // Input Tracker
+    let input;
+    // Return JSX
+    return (
+        <div>
+            <input ref={node => {
+                input = node;
+            }} />
+            <button onClick={() => {
+                addTodo(input.value);
+                input.value = '';
+            }}>
+                +
+            </button>
+        </div>
     );
-    }
-}
+};
 
-// ========================================
+const Todo = ({todo, remove}) => {
+    // Each Todo
+    return (<li onClick={() =>
+    {remove(todo.id)}}>
+        {todo.text}</li>);
+};
 
-ReactDOM.render(
-<Game />,
-    document.getElementById('container')
-);
+const TodoList = ({todos, remove}) => {
+    // Map through the todos
+    const todoNode = todos.map((todo) => {
+        return (<Todo todo={todo} key={todo.id} remove={remove}/>)
+    });
+    return (<ul>{todoNode}</ul>);
+};
 
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+// Contaner Component
+// Todo Id
+window.id = 0;
+class TodoApp extends React.Component{
+    constructor(props){
+        // Pass props to parent class
+        super(props);
+        // Set initial state
+        this.state = {
+            data: []
         }
     }
-    return null;
+    // Add todo handler
+    addTodo(val){
+        // Assemble data
+        const todo = {text: val, id: window.id++}
+        // Update data
+        this.state.data.push(todo);
+        // Update state
+        this.setState({data: this.state.data});
+    }
+    // Handle remove
+    handleRemove(id){
+        // Filter all todos except the one to be removed
+        const remainder = this.state.data.filter((todo) => {
+            if(todo.id !== id) return todo;
+        });
+        // Update state with filter
+        this.setState({data: remainder});
+    }
+
+    render(){
+        // Render JSX
+        return (
+            <div>
+                <Title />
+                <TodoForm addTodo={this.addTodo.bind(this)}/>
+                <TodoList
+                    todos={this.state.data}
+                    remove={this.handleRemove.bind(this)}
+                />
+            </div>
+        );
+    }
 }
 
+ReactDOM.render(<TodoApp />, document.getElementById('container'));

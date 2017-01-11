@@ -15,7 +15,7 @@ const Title = () => {
             </div>
         </div>
     );
-}
+};
 
 const TodoForm = ({addTodo}) => {
     // Input Tracker
@@ -63,14 +63,28 @@ class TodoApp extends React.Component{
             data: []
         }
     }
+    // Lifecycle method
+    componentDidMount(){
+        // Make HTTP reques with Axios
+        axios.get('/data')
+            .catch((error) =>{
+                console.log("Error: ", error);
+            })
+            .then((res) => {
+                console.log("Data retrieved: ", res);
+                // Set state with result
+                this.setState({data:res.data});
+            });
+    }
     // Add todo handler
     addTodo(val){
         // Assemble data
-        const todo = {text: val, id: window.id++}
+        const todo = {text: val, id: window.id++};
         // Update data
         this.state.data.push(todo);
         // Update state
         this.setState({data: this.state.data});
+        axios.put('/data/',todo, {headers: {"Content-Type":"application/json"}});
     }
     // Handle remove
     handleRemove(id){
@@ -78,6 +92,7 @@ class TodoApp extends React.Component{
         const remainder = this.state.data.filter((todo) => {
             if(todo.id !== id) return todo;
         });
+        axios.delete('/data/' + id);
         // Update state with filter
         this.setState({data: remainder});
     }

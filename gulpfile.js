@@ -31,6 +31,12 @@ gulp.task('server', function() {
         .pipe(gulp.dest(dir_build_server));
 });
 
-gulp.task('default', ['clean'], function() {
+gulp.task('build', function() {
     gulp.start('client');
 });
+
+gulp.task('clean-build', ['clean'], function(){
+    gulp.start('build');
+});
+
+gulp.task('default', ['build']);

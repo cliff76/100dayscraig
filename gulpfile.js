@@ -11,7 +11,6 @@ var newer = require('gulp-newer');
 var dir_src = path.resolve(__dirname, 'src');
 var dir_src_server = path.resolve(dir_src, 'server');
 var dir_js = path.resolve(dir_src, 'js');
-var dir_html = path.resolve(dir_src, 'html');
 
 var dir_build = path.resolve(__dirname, 'build');
 var dir_build_server = path.resolve(dir_build, 'server');
